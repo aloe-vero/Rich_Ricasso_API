@@ -30,8 +30,8 @@ class UtilisateurModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function createUtilisateur($data) {
-        $stmt = $this->db->prepare("INSERT INTO utilisateurs (nom, prenom, courriel, password, autorisation) VALUES (?, ?, ?, ?,?)");
-        return $stmt->execute([$data['nom'], $data['prenom'], $data['courriel'], $data['password'], $data['autorisation']]);
+        $stmt = $this->db->prepare("INSERT INTO utilisateurs (nom, prenom, courriel, password) VALUES (?, ?, ?, ?)");
+        return $stmt->execute([$data['nom'], $data['prenom'], $data['courriel'], $data['password']]);
 
     }
 
