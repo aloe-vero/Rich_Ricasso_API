@@ -50,6 +50,7 @@ switch ($method| $uri) {
         $user = $pc->getProduitById($id);
         echo json_encode($user);
         break;
+
     case ($method == 'POST' && $uri == '/api/produits'):
         $data = $_POST;
         $result = $pc->createProduit($data);
@@ -169,10 +170,25 @@ switch ($method| $uri) {
         }
         break;
 
-//    case ($method == 'GET' && $uri = "/api/"):
-//        require("login.php");
-//        break;
+//    case ($method == 'POST' && $uri == '/api/login'):
+//        $data = json_decode(file_get_contents("php://input"), true);
 //
+//        if (!isset($data['email']) || !isset($data['password'])) {
+//            echo json_encode(["success" => false, "message" => "Données manquantes : email ou mot de passe."]);
+//            break;
+//        }
+//
+//        $email = $data['email'];
+//        $password = $data['password'];
+//
+//        if ($uc->verifyUser($email, $password)) {
+//            echo json_encode(["success" => true, "message" => "Connexion réussie."]);
+//        } else {
+//
+//            echo json_encode(["success" => false, "message" => "Échec de l'authentification."]);
+//        }
+//        break;
+
 
     default:
         require("404.php");
