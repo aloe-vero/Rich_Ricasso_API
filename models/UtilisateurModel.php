@@ -18,11 +18,15 @@ class UtilisateurModel
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getUtilisateurByCourriel($courriel) {
-        $stmt = $this->db->prepare('SELECT * FROM utilisateurs WHERE courriel = ?');
+
+
+    function getUtilisateurByCourriel($courriel) {
+        $stmt = $this->db->prepare("SELECT * FROM utilisateurs WHERE courriel= ?");
         $stmt->execute([$courriel]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+
 
     public function getUtilisateurById($id) {
         $stmt = $this->db->prepare('SELECT * FROM utilisateurs WHERE id = ?');

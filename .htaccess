@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /api/
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+) /api/index.php [QSA,L]
+
+php_flag display_startup_errors on
+php_flag display_errors on
+
+

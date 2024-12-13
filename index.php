@@ -80,7 +80,6 @@ switch ($method| $uri) {
     * Tâche: stocker un utilisateur
     */
     case ($method == 'POST' && $uri == '/api/utilisateurs'):
-        // Read the raw JSON body
         $data = json_decode(file_get_contents("php://input"), true);
 
         if ($data) {
@@ -170,24 +169,21 @@ switch ($method| $uri) {
         }
         break;
 
-//    case ($method == 'POST' && $uri == '/api/login'):
-//        $data = json_decode(file_get_contents("php://input"), true);
-//
-//        if (!isset($data['email']) || !isset($data['password'])) {
-//            echo json_encode(["success" => false, "message" => "Données manquantes : email ou mot de passe."]);
-//            break;
-//        }
-//
-//        $email = $data['email'];
-//        $password = $data['password'];
-//
-//        if ($uc->verifyUser($email, $password)) {
-//            echo json_encode(["success" => true, "message" => "Connexion réussie."]);
-//        } else {
-//
-//            echo json_encode(["success" => false, "message" => "Échec de l'authentification."]);
-//        }
-//        break;
+    case ($method == 'POST' && $uri == '/api/login'):
+        $input = file_get_contents("php://input");
+        $data = json_decode($input, true);
+
+        if (!isset($data['courriel']) || !isset($data['password'])) {
+            echo json_encode(["success" => false, "message" => "Données manquantes ou vides."]);
+            exit;
+        }
+
+        $email = trim($data['courriel']);
+        $password = trim($data['password']);
+
+        $response = $uc->login($email, $password);
+        echo json_encode($response); // Retourne la réponse complète avec l'ID
+        break;
 
 
     default:

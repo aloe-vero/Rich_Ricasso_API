@@ -14,13 +14,7 @@ class Abonnement
 
         $this->model = new AbonnementModel($database);
 
-
     }
-    public function getAllAbonnements()
-    {
-        return $this->model->getAllAbonnements();
-    }
-
     public function createAbonnement($data)
     {
         return $this->model->createAbonnement($data);

@@ -33,44 +33,44 @@ class Utilisateur
     public function deleteUtilisateur($id){
         return $this->model->deleteUtilisateur($id);
     }
+    function verifyUser($courriel, $password) {
+        $user = $this->getUtilisateurByCourriel($courriel);
 
-    public function verifyUser($email, $mot_de_passe): bool
-    {
-        $user = $this->model->getUtilisateurByCourriel($email);
-        if($user)  {
-            if(password_verify($mot_de_passe, $user['mot_de_passe'])) {
-                return true;
-            }
-        }
-        return false;
+        error_log("password" . $password);
+        error_log("password" . $user['password']);
+
+//        if (!password_verify($password, $user['password'])) {
+//            error_log("Password mismatch for user: " . $courriel);
+//            return null;
+//        }
+
+
+        return $user;
     }
 
-    public function grantAdminAccess($email, $mot_de_passe): void
+    public function login($courriel, $password): array
     {
+        $user = $this->verifyUser($courriel, $password);
 
-        if($this ->verifyUser($email, $mot_de_passe)) {
-            $user = $this->model->getUtilisateurByCourriel($email);
 
-            if($user['role'] == 'admin') {
-                $_SESSION['admin']['isAuth'] = true;
-                $_SESSION['admin']['role'] = 'admin';
-                echo "yes authorization";
-            }else{
-                $_SESSION['admin']['isAuth'] = false;
-                echo "no authorization";
-            }
-        }
-    }
-
-    public function login($email, $password): void
-    {
-        if ($this->verifyUser($email, $password)) {
+        if ($user) {
             $_SESSION['authentifie'] = true;
-            $this->grantAdminAccess($email, $password);
-            require_once "spa.php";
-        }else{
-            require_once "login.php";
-            echo "fail";
+            $_SESSION['user_id'] = $user['id'];
+
+            return [
+                "success" => true,
+                "message" => "Connexion réussie.",
+                "data" => [
+                    "id" => $user['id'],
+                ],
+            ];
+        } else {
+            return [
+                "success" => false,
+                "message" => "Échec de l'authentification.",
+            ];
         }
     }
+
+
 }
